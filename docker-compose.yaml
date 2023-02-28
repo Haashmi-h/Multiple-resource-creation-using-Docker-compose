@@ -1,0 +1,36 @@
+services:
+  database:
+    image: mysql:5.6
+    container_name: wpdb
+    restart: always
+    networks:
+      - wpntw
+    volumes:
+      - wpdb:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=haash123
+      - MYSQL_DATABASE=wp_db
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbhaash123
+  web:
+    image: wordpress:latest
+    container_name: wpfiles
+    restart: always
+    networks:
+      - wpntw
+    ports:
+      - "80:80"
+    volumes:
+      - wp:/var/www/html/
+    environment:
+      - WORDPRESS_DB_HOST=wpdb
+      - WORDPRESS_DB_USER=dbuser
+      - WORDPRESS_DB_PASSWORD=dbhaash123
+      - WORDPRESS_DB_NAME=wp_db
+
+networks:
+  wpntw:
+
+volumes:
+  wp:
+  wpdb:
